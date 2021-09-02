@@ -29,14 +29,8 @@ plugins {
 
 repositories {
     mavenLocal()
-    jcenter()
+    mavenCentral()
     gradlePluginPortal()
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
 }
 
 dependencies {
@@ -59,22 +53,31 @@ dependencies {
 
 tasks {
     named<RatTask>("rat") {
-        excludes.addAll(listOf("*.yml", "*.md", "**/*.md", "**/build/*", "**/out/*"))
+        excludes.addAll(listOf(
+            "**/*.md", // docs
+            "gradle/wrapper/**", "gradle*", "**/build/**", // Gradle
+            "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
+            "**/generated/*", "**/*.adoc", "**/resources/**", // assets
+            ".github/*", "conf/*.json", "conf/*.conf"
+        ))
     }
-    getByName("build").dependsOn("rat")
+    getByName("check").dependsOn("rat")
+    getByName("rat").dependsOn("compileJava")
+    getByName("sourcesJar").dependsOn("compileJava")
 }
 
 tasks {
     named<RatTask>("rat") {
         excludes.addAll(listOf(
-                "*.md", // docs
-                "gradle/wrapper/**", "gradle*", "**/build/**", // Gradle
-                "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
-                "**/generated/*", "**/*.adoc",
-                ".github/*"
+            "**/*.md", // docs
+            "gradle/wrapper/**", "gradle*", "**/build/**", // Gradle
+            "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
+            "**/generated/*", "**/*.adoc", "**/resources/**", // assets
+            ".github/*"
         ))
     }
-    getByName("build").dependsOn("rat")
+    getByName("check").dependsOn("rat")
+    getByName("rat").dependsOn("compileJava")
 }
 
 publishing {
