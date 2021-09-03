@@ -19,8 +19,8 @@ import static io.knotx.commons.json.JsonObjectUtil.getJsonObject;
 import static io.knotx.commons.json.JsonObjectUtil.getObject;
 import static io.knotx.commons.json.JsonObjectUtil.getString;
 import static io.knotx.commons.json.JsonObjectUtil.putValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import io.vertx.core.json.JsonObject;
 import org.junit.jupiter.api.DisplayName;
