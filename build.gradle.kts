@@ -25,6 +25,7 @@ plugins {
     id("io.knotx.maven-publish")
     id("io.knotx.release-java")
     id("org.nosphere.apache.rat")
+    id("net.ossindex.audit") version "0.4.11"
 }
 
 repositories {
@@ -44,7 +45,6 @@ dependencies {
     implementation(group = "org.apache.commons", name = "commons-lang3")
     implementation(group = "org.junit.jupiter", name = "junit-jupiter-api")
     implementation(group = "org.junit.jupiter", name = "junit-jupiter-params")
-    implementation(group = "org.junit.jupiter", name = "junit-jupiter-migrationsupport")
 
     testImplementation("io.knotx:knotx-junit5:${project.version}")
     testImplementation(group = "org.mockito", name = "mockito-core")
@@ -61,8 +61,13 @@ tasks {
             ".github/*", "conf/*.json", "conf/*.conf"
         ))
     }
-    getByName("check").dependsOn("rat")
     getByName("rat").dependsOn("compileJava")
+    getByName("check").dependsOn("rat")
+    val audit = named("audit") {
+        group = "verification"
+    }
+    getByName("check").dependsOn(audit)
+    getByName("test").mustRunAfter(audit)
     getByName("sourcesJar").dependsOn("compileJava")
 }
 
