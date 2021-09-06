@@ -3,7 +3,6 @@ All notable changes to `knotx-commons` will be documented in this file.
 
 ## Unreleased
 List of changes that are finished but not yet released in any final version.
-- [PR-47](https://github.com/Knotx/knotx-commons/pull/47) Removes JUnit4 dependencies.
                 
 ## 2.3.0
 - [PR-37](https://github.com/Knotx/knotx-commons/pull/37) Updates in `JsonObjectUtil`.
