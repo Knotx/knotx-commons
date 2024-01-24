@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import net.ossindex.gradle.AuditExtensions
 import org.nosphere.apache.rat.RatTask
 
 group = "io.knotx"
@@ -55,7 +56,7 @@ tasks {
     named<RatTask>("rat") {
         excludes.addAll(listOf(
             "**/*.md", // docs
-            "gradle/wrapper/**", "gradle*", "**/build/**", // Gradle
+            "gradle/wrapper/**", "gradle*", "**/build/**", "**/bin/**", // Gradle
             "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
             "**/generated/*", "**/*.adoc", "**/resources/**", // assets
             ".github/*", "conf/*.json", "conf/*.conf"
@@ -65,6 +66,7 @@ tasks {
     getByName("check").dependsOn("rat")
     val audit = named("audit") {
         group = "verification"
+        onlyIf { project.hasProperty("audit.enabled") }
     }
     getByName("check").dependsOn(audit)
     getByName("test").mustRunAfter(audit)
@@ -75,7 +77,7 @@ tasks {
     named<RatTask>("rat") {
         excludes.addAll(listOf(
             "**/*.md", // docs
-            "gradle/wrapper/**", "gradle*", "**/build/**", // Gradle
+            "gradle/wrapper/**", "gradle*", "**/build/**", "**/bin/**", // Gradle
             "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
             "**/generated/*", "**/*.adoc", "**/resources/**", // assets
             ".github/*"
